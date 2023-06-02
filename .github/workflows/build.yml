@@ -17,29 +17,32 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    # http://man7.org/linux/man-pages/man1/date.1.html
-    - name: Get Date
+    - run: echo Config ${{ inputs.config }}
+
+    - name: Get Date for Cache Key
       id: get-date
       run: |
         echo "date=$(/bin/date -u "+%Y%m")" >> $GITHUB_OUTPUT
       shell: bash
 
-    # Cache based on config, reset each month to avoid too much cruft
-    - uses: actions/cache@v3
+    - name: Cache based on selected config and year/month to avoid cruft
+      uses: actions/cache@v3
       with:
         path: out
         key: ${{ inputs.config }}-${{ steps.get-date.outputs.date }}
 
-    - name: Build image
+    - name: Build Image
       run: |
         ./build.sh ${{ inputs.config }}
 
-    - uses: actions/upload-artifact@v3
+    - name: Upload Config
+      uses: actions/upload-artifact@v3
       with:
         name: config
         path: out/.config
 
-    - uses: actions/upload-artifact@v3
+    - name: Upload Image
+      uses: actions/upload-artifact@v3
       with:
         name: image
         path: out/images
