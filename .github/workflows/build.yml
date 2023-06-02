@@ -1,4 +1,4 @@
-name: CI
+name: Build Image
 on:
   workflow_dispatch:
     inputs:
@@ -40,11 +40,11 @@ jobs:
     - name: Upload Config
       uses: actions/upload-artifact@v3
       with:
-        name: config
+        name: config-${{ inputs.config }}-${{ steps.get-date.outputs.date }}
         path: out/.config
 
     - name: Upload Image
       uses: actions/upload-artifact@v3
       with:
-        name: image
+        name: image-${{ inputs.config }}-${{ steps.get-date.outputs.date }}
         path: out/images
