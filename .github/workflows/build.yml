@@ -8,6 +8,8 @@ on:
         default: 'qemu_x86_64'
         type: choice
         options:
+        - qemu_aarch64_virt
+        - qemu_arm_versatile
         - qemu_x86_64
         - raspberrypi4_64
 
