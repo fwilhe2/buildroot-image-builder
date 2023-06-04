@@ -27,11 +27,17 @@ jobs:
         echo "date=$(/bin/date -u "+%Y%m")" >> $GITHUB_OUTPUT
       shell: bash
 
+    - name: Get Config Hash for Cache Key
+      id: get-hash
+      run: |
+        echo "hash=$(sha256sum config/${{ inputs.config }} | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+      shell: bash
+
     - name: Cache based on selected config and year/month to avoid cruft
       uses: actions/cache@v3
       with:
         path: out
-        key: ${{ inputs.config }}-${{ steps.get-date.outputs.date }}
+        key: ${{ inputs.config }}-${{ steps.get-hash.outputs.hash }}-${{ steps.get-date.outputs.date }}
 
     - name: Build Image
       run: |
