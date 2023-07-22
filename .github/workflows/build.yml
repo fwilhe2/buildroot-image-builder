@@ -30,13 +30,13 @@ jobs:
     - name: Get Config Hash for Cache Key
       id: get-hash
       run: |
-        echo "hash=$(sha256sum config/${{ inputs.config }} | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+        echo "hash=$(sha256sum config/$(cat config.json | jq -r .buildroot_version)/${{ inputs.config }} | awk '{ print $1 }')" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Get Buildroot version for Cache Key
       id: get-br-version
       run: |
-        echo "br_version=$(cat config.json | jq .buildroot_version)"
+        echo "br_version=$(cat config.json | jq -r .buildroot_version)" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Cache based on selected config and year/month to avoid cruft

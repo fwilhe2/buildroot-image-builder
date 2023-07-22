@@ -2,7 +2,13 @@
 
 set -e
 
-CONFIG_FILE="config/$1"
+BR_VERSION=$(cat config.json | jq -r .buildroot_version)
+
+echo $BR_VERSION
+
+CONFIG_FILE="config/$BR_VERSION/$1"
+
+echo $CONFIG_FILE
 
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "Usage: ./build.sh [config-file]"
@@ -12,11 +18,9 @@ fi
 mkdir -p out
 cp "$CONFIG_FILE" out/.config
 
-BR_VERSION=$(cat config.json | jq .buildroot_version)
-
 if [ ! -d buildroot ]; then
-    git clone --depth 1 --branch $BR_VERSION https://github.com/buildroot/buildroot
+    git clone --depth 1 --branch "$BR_VERSION" https://github.com/buildroot/buildroot
 fi
 cd buildroot
 
-# make O=../out
+make O=../out
