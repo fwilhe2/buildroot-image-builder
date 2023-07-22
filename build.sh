@@ -12,9 +12,11 @@ fi
 mkdir -p out
 cp "$CONFIG_FILE" out/.config
 
+BR_VERSION=$(cat config.json | jq .buildroot_version)
+
 if [ ! -d buildroot ]; then
-    git clone --depth 1 --branch 2023.02.2 https://github.com/buildroot/buildroot
+    git clone --depth 1 --branch $BR_VERSION https://github.com/buildroot/buildroot
 fi
 cd buildroot
 
-make O=../out
+# make O=../out
