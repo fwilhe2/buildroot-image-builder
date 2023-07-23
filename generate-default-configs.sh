@@ -6,17 +6,7 @@ BR_VERSION=$(cat config.json | jq -r .buildroot_version)
 
 echo $BR_VERSION
 
-CONFIG_FILE="config/$BR_VERSION/$1"
-
-echo $CONFIG_FILE
-
-if [ ! -f "$CONFIG_FILE" ]; then
-    echo "Usage: ./build.sh [config-file]"
-    exit 1
-fi
-
-mkdir -p out
-cp "$CONFIG_FILE" out/.config
+CONFIG_VARIANTS=("qemu_aarch64_virt" "qemu_arm_versatile" "qemu_x86_64" "raspberrypi4_64")
 
 if [ ! -d "buildroot-$BR_VERSION" ]; then
     wget "https://buildroot.org/downloads/buildroot-$BR_VERSION.tar.gz"
@@ -24,4 +14,8 @@ if [ ! -d "buildroot-$BR_VERSION" ]; then
 fi
 cd "buildroot-$BR_VERSION"
 
-make O=../out
+mkdir -p ../config/$BR_VERSION
+for config_variant in ${CONFIG_VARIANTS[@]}; do
+  make ${config_variant}_defconfig
+  mv .config ../config/$BR_VERSION/$config_variant
+done

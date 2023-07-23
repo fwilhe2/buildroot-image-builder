@@ -12,6 +12,15 @@ on:
         - qemu_arm_versatile
         - qemu_x86_64
         - raspberrypi4_64
+      br_version:
+        description: 'Buildroot version'
+        required: true
+        default: '2023.02.3'
+        type: choice
+        options:
+        - '2023.02.2'
+        - '2023.02.3'
+        - '2023.05.1'
 
 jobs:
   build:
@@ -21,29 +30,20 @@ jobs:
 
     - run: echo Config ${{ inputs.config }}
 
-    - name: Get Date for Cache Key
-      id: get-date
-      run: |
-        echo "date=$(/bin/date -u "+%Y%m")" >> $GITHUB_OUTPUT
-      shell: bash
+    - run: |
+        echo '{"buildroot_version": "${{ inputs.br_version }}"}' > config.json
 
     - name: Get Config Hash for Cache Key
       id: get-hash
       run: |
-        echo "hash=$(sha256sum config/$(cat config.json | jq -r .buildroot_version)/${{ inputs.config }} | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+        echo "hash=$(sha256sum config/${{ inputs.br_version }}/${{ inputs.config }} | awk '{ print $1 }')" >> $GITHUB_OUTPUT
       shell: bash
 
-    - name: Get Buildroot version for Cache Key
-      id: get-br-version
-      run: |
-        echo "br_version=$(cat config.json | jq -r .buildroot_version)" >> $GITHUB_OUTPUT
-      shell: bash
-
-    - name: Cache based on selected config and year/month to avoid cruft
+    - name: Cache based on selected config and Buildroot version
       uses: actions/cache@v3
       with:
         path: out
-        key: ${{ inputs.config }}-${{ steps.get-br-version.outputs.br_version }}-${{ steps.get-hash.outputs.hash }}-${{ steps.get-date.outputs.date }}
+        key: ${{ inputs.config }}-${{ inputs.br_version }}-${{ steps.get-hash.outputs.hash }}
 
     - name: Build Image
       run: |
@@ -52,11 +52,11 @@ jobs:
     - name: Upload Config
       uses: actions/upload-artifact@v3
       with:
-        name: config-${{ inputs.config }}-${{ steps.get-date.outputs.date }}
+        name: config-${{ inputs.config }}-${{ inputs.br_version }}
         path: out/.config
 
     - name: Upload Image
       uses: actions/upload-artifact@v3
       with:
-        name: image-${{ inputs.config }}-${{ steps.get-date.outputs.date }}
+        name: image-${{ inputs.config }}-${{ inputs.br_version }}
         path: out/images
