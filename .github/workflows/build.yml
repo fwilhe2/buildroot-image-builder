@@ -13,10 +13,11 @@ on:
         - qemu_x86_64
         - raspberrypi4_64
         - qemu_x86_64_tar_grub
+        - qemu_x86_64_grub_systemd
       br_version:
         description: 'Buildroot version'
         required: true
-        default: '2023.02.3'
+        default: '2023.05.1'
         type: choice
         options:
         - '2023.02.2'
