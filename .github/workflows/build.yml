@@ -12,6 +12,7 @@ on:
         - qemu_arm_versatile
         - qemu_x86_64
         - raspberrypi4_64
+        - qemu_x86_64_tar_grub
       br_version:
         description: 'Buildroot version'
         required: true
