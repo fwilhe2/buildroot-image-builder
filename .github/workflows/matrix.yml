@@ -1,19 +1,7 @@
-name: Build Image
+name: Matrix Build Image
 on:
   workflow_dispatch:
     inputs:
-      config:
-        description: 'Config file'
-        required: true
-        default: 'qemu_x86_64'
-        type: choice
-        options:
-        - qemu_aarch64_virt
-        - qemu_arm_versatile
-        - qemu_x86_64
-        - raspberrypi4_64
-        - qemu_x86_64_tar_grub
-        - qemu_x86_64_grub_systemd
       br_version:
         description: 'Buildroot version'
         required: true
@@ -27,10 +15,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - qemu_aarch64_virt
+          - qemu_arm_versatile
+          - qemu_x86_64
+          - raspberrypi4_64
     steps:
     - uses: actions/checkout@v3
 
-    - run: echo Config ${{ inputs.config }}
+    - run: echo Config ${{ matrix.config }}
 
     - run: |
         echo '{"buildroot_version": "${{ inputs.br_version }}"}' > config.json
@@ -38,27 +34,27 @@ jobs:
     - name: Get Config Hash for Cache Key
       id: get-hash
       run: |
-        echo "hash=$(sha256sum config/${{ inputs.br_version }}/${{ inputs.config }} | awk '{ print $1 }')" >> $GITHUB_OUTPUT
+        echo "hash=$(sha256sum config/${{ inputs.br_version }}/${{ matrix.config }} | awk '{ print $1 }')" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Cache based on selected config and Buildroot version
       uses: actions/cache@v3
       with:
         path: out
-        key: ${{ inputs.config }}-${{ inputs.br_version }}-${{ steps.get-hash.outputs.hash }}
+        key: ${{ matrix.config }}-${{ inputs.br_version }}-${{ steps.get-hash.outputs.hash }}
 
     - name: Build Image
       run: |
-        ./build.sh ${{ inputs.config }}
+        ./build.sh ${{ matrix.config }}
 
     - name: Upload Config
       uses: actions/upload-artifact@v3
       with:
-        name: config-${{ inputs.config }}-${{ inputs.br_version }}
+        name: config-${{ matrix.config }}-${{ inputs.br_version }}
         path: out/.config
 
     - name: Upload Image
       uses: actions/upload-artifact@v3
       with:
-        name: image-${{ inputs.config }}-${{ inputs.br_version }}
+        name: image-${{ matrix.config }}-${{ inputs.br_version }}
         path: out/images
