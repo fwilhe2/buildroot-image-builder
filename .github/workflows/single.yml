@@ -23,6 +23,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - run: sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get -y install libelf-dev
+
     - run: echo Config ${{ inputs.config }}
 
     - run: |
