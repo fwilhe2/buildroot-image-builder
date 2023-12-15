@@ -48,13 +48,13 @@ jobs:
         ./build.sh ${{ matrix.config }}
 
     - name: Upload Config
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: config-${{ matrix.config }}-${{ inputs.br_version }}
         path: out/.config
 
     - name: Upload Image
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: image-${{ matrix.config }}-${{ inputs.br_version }}
         path: out/images
