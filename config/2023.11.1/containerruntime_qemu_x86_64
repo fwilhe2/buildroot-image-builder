@@ -3672,12 +3672,12 @@ BR2_PACKAGE_CRUN=y
 # ddrescue needs a toolchain w/ C++
 #
 # BR2_PACKAGE_DEBIANUTILS is not set
-BR2_PACKAGE_DOCKER_CLI=y
+# BR2_PACKAGE_DOCKER_CLI=y
 
 #
 # docker-compose needs docker-cli and a toolchain w/ threads
 #
-BR2_PACKAGE_DOCKER_ENGINE=y
+# BR2_PACKAGE_DOCKER_ENGINE=y
 # BR2_PACKAGE_DOCKER_ENGINE_DRIVER_BTRFS is not set
 # BR2_PACKAGE_DOCKER_ENGINE_DRIVER_DEVICEMAPPER is not set
 # BR2_PACKAGE_DOCKER_ENGINE_DRIVER_VFS is not set
