@@ -3672,7 +3672,7 @@ BR2_PACKAGE_CRUN=y
 # ddrescue needs a toolchain w/ C++
 #
 # BR2_PACKAGE_DEBIANUTILS is not set
-# BR2_PACKAGE_DOCKER_CLI is not set
+BR2_PACKAGE_DOCKER_CLI=y
 
 #
 # docker-compose needs docker-cli and a toolchain w/ threads
@@ -3720,7 +3720,7 @@ BR2_PACKAGE_MAKEDUMPFILE_ARCH_SUPPORTS=y
 # multipath-tools needs udev and a toolchain w/ threads, dynamic library, C++
 #
 # BR2_PACKAGE_NCDU is not set
-# BR2_PACKAGE_NERDCTL is not set
+BR2_PACKAGE_NERDCTL=y
 
 #
 # netifrc needs openrc as init system
