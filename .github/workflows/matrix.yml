@@ -39,7 +39,7 @@ jobs:
       shell: bash
 
     - name: Cache based on selected config and Buildroot version
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: out
         key: ${{ matrix.config }}-${{ inputs.br_version }}-${{ steps.get-hash.outputs.hash }}
