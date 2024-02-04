@@ -24,6 +24,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Collect Workflow Telemetry
+      uses: catchpoint/workflow-telemetry-action@master
+
     - run: sudo apt-get update && DEBIAN_FRONTEND=noninteractive sudo apt-get -y install libelf-dev
 
     - run: echo Config ${{ inputs.config }}
