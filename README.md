@@ -10,6 +10,7 @@ Linux image builder based on [Buildroot](https://buildroot.org).
 
 ```sh
 sudo dnf install -y which sed make binutils diffutils gcc gcc-c++ bash patch gzip bzip2 tar cpio unzip rsync file bc findutils wget
+sudo dnf install -y qt4-devel
 ```
 
 ## Trigger GitHub Workflow via cli
