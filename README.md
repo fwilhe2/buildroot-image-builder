@@ -2,6 +2,16 @@
 
 Linux image builder based on [Buildroot](https://buildroot.org).
 
+## Buildroot dependencies
+
+[Docs](https://buildroot.org/downloads/manual/manual.html#requirement)
+
+### Fedora
+
+```sh
+sudo dnf install -y which sed make binutils diffutils gcc gcc-c++ bash patch gzip bzip2 tar cpio unzip rsync file bc findutils wget
+```
+
 ## Trigger GitHub Workflow via cli
 
 ```sh
