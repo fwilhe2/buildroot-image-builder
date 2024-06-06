@@ -61,3 +61,9 @@ jobs:
       with:
         name: image-${{ inputs.config }}-${{ inputs.br_version }}
         path: out/images
+
+    - name: Upload Out
+      uses: actions/upload-artifact@v4
+      with:
+        name: out-${{ inputs.config }}-${{ inputs.br_version }}
+        path: out
