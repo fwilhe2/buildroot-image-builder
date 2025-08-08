@@ -54,6 +54,7 @@ jobs:
       with:
         name: config-${{ matrix.config }}-${{ inputs.br_version }}
         path: out/.config
+        include-hidden-files: true
 
     - name: Upload Image
       uses: actions/upload-artifact@v4
