@@ -5,14 +5,11 @@ on:
       br_version:
         description: 'Buildroot version'
         required: true
-        default: '2025.02.4'
+        default: '2025.05'
         type: choice
         options:
-        - '2023.02.2'
-        - '2023.02.3'
-        - '2023.05.1'
-        - '2023.11.1'
         - '2025.02.4'
+        - '2025.05'
 
 jobs:
   build:
