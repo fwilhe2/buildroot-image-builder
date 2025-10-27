@@ -49,20 +49,20 @@ jobs:
         ./build.sh ${{ inputs.config }}
 
     - name: Upload Config
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: config-${{ inputs.config }}-${{ inputs.br_version }}
         path: out/.config
         include-hidden-files: true
 
     - name: Upload Image
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: image-${{ inputs.config }}-${{ inputs.br_version }}
         path: out/images
 
     - name: Upload Out
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: out-${{ inputs.config }}-${{ inputs.br_version }}
         path: out
