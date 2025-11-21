@@ -47,14 +47,14 @@ jobs:
         ./build.sh ${{ matrix.config }}
 
     - name: Upload Config
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: config-${{ matrix.config }}-${{ inputs.br_version }}
         path: out/.config
         include-hidden-files: true
 
     - name: Upload Image
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: image-${{ matrix.config }}-${{ inputs.br_version }}
         path: out/images
